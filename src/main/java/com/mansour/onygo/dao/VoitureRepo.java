@@ -11,6 +11,7 @@ import com.mansour.onygo.entities.Voiture;
 
 @RepositoryRestResource
 public interface VoitureRepo extends JpaRepository<Voiture, Long> {
+	
 	@RestResource (path = "/disponibiliteVoiture")
 	public List<Voiture> findByDisponibiliteIsTrue();
 	

@@ -6,21 +6,31 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.mansour.onygo.dao.LocationRepository;
+import com.mansour.onygo.dao.ReservationLocRepo;
 import com.mansour.onygo.dao.ReservationTrajetRepo;
 import com.mansour.onygo.dao.TrajetRepo;
 import com.mansour.onygo.dao.UtilisateurRepo;
 import com.mansour.onygo.dao.VoitureRepo;
+import com.mansour.onygo.entities.Admin;
 import com.mansour.onygo.entities.Client;
 import com.mansour.onygo.entities.Location;
 import com.mansour.onygo.entities.Partenaire;
+import com.mansour.onygo.entities.ReservationLoc;
 import com.mansour.onygo.entities.ReservationTrajet;
 import com.mansour.onygo.entities.Trajet;
+import com.mansour.onygo.entities.Utilusateur;
 import com.mansour.onygo.entities.Voiture;
 
 import net.bytebuddy.utility.RandomString;
 
 @SpringBootApplication
 public class OnygoApplication implements CommandLineRunner {
+	@Autowired
+	private LocationRepository locationRepo;
+	@Autowired
+	private ReservationTrajetRepo reservationTrajetRepo;
+	@Autowired
+	private ReservationLocRepo reservationLocRepo;
 	@Autowired
 	private VoitureRepo voitureRepo;
 	@Autowired
@@ -34,6 +44,15 @@ public class OnygoApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		
+		Admin a1 = new Admin();
+		a1.setAdresse("dakar");
+		a1.setEmail(null);
+		a1.setIsActive(true);
+		a1.setPrenom("Ibra");
+		a1.setNom("Fall");
+		a1.setTelephone(null);
+		utilisateurRepo.save(a1);
 		
 		Client c1 = new  Client();
 		c1.setAdresse("dakar");
@@ -236,16 +255,65 @@ public class OnygoApplication implements CommandLineRunner {
 		t5.setVoiture(v5);
 		t5.setPartenaire(p1);
 		trajetRepo.save(t5);
+		
+		ReservationTrajet r1 = new ReservationTrajet(null, c1, t1);
+		ReservationTrajet r2 = new ReservationTrajet(null, c2, t1);
+		ReservationTrajet r3 = new ReservationTrajet(null, c3, t1);
+		ReservationTrajet r4 = new ReservationTrajet(null, c4, t1);
+		
+		ReservationTrajet r5 = new ReservationTrajet(null, c1, t2);
+		ReservationTrajet r6 = new ReservationTrajet(null, c4, t2);
+		ReservationTrajet r7 = new ReservationTrajet(null, c2, t3);
+		ReservationTrajet r8 = new ReservationTrajet(null, c3, t3);
+		
+		ReservationTrajet r9 = new ReservationTrajet(null, c1, t4);
+		ReservationTrajet r10 = new ReservationTrajet(null, c3, t4);
+		ReservationTrajet r11 = new ReservationTrajet(null, c2, t5);
+		ReservationTrajet r12 = new ReservationTrajet(null, c4, t5);
+		
+		reservationTrajetRepo.save(r1);
+		reservationTrajetRepo.save(r2);
+		reservationTrajetRepo.save(r3);
+		reservationTrajetRepo.save(r4);
+		reservationTrajetRepo.save(r5);
+		reservationTrajetRepo.save(r6);
+		reservationTrajetRepo.save(r7);
+		reservationTrajetRepo.save(r8);
+		reservationTrajetRepo.save(r9);
+		reservationTrajetRepo.save(r10);
+		reservationTrajetRepo.save(r11);
+		reservationTrajetRepo.save(r12);
 				
-	/*	Location l1 = new Location();
-		l1.setAdresse(null);ss
+		Location l1 = new Location();
+		l1.setAdresse(null);
 		l1.setComment(null);
 		l1.setDateDebut(new Date());
 		l1.setDateFin(new Date());
 		l1.setLieuxRendezvous("dakar");
-		l1.setPrix(3000.0);
-		LocationRepository.*/
+		l1.setPrix(4000.0);
+		l1.setPartenaire(p2);
+		l1.setVoiture(v2);
+		locationRepo.save(l1);
 		
+		Location l2 = new Location();
+		l2.setAdresse("sicap liberte 3");
+		l2.setComment(RandomString.make(30));
+		l2.setDateDebut(new Date());
+		l2.setDateFin(new Date());
+		l2.setLieuxRendezvous("dakar");
+		l2.setPrix(3000.0);
+		l1.setPartenaire(p1);
+		l1.setVoiture(v3);
+		locationRepo.save(l2);
+		
+		ReservationLoc RL1 = new ReservationLoc(null, new Date(), new Date(), l1, c1);
+		reservationLocRepo.save(RL1);
+		ReservationLoc RL2 = new ReservationLoc(null, new Date(), new Date(), l2, c2);		
+		reservationLocRepo.save(RL2);
+		ReservationLoc RL3 = new ReservationLoc(null, new Date(), new Date(), l1, c3);
+		reservationLocRepo.save(RL3);
+		ReservationLoc RL4 = new ReservationLoc(null, new Date(), new Date(), l2, c4);
+		reservationLocRepo.save(RL4);
 	}
 
 }
